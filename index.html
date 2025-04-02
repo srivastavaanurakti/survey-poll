@@ -1,41 +1,67 @@
-{
-  "title": "Poll Campaign",
-  "pages": [
-    {
-      "name": "page1",
-      "elements": [
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Poll Campaign</title>
+  <script src="https://unpkg.com/survey-core/survey.core.min.js"></script>
+  <script src="https://unpkg.com/survey-core/survey.ranking.min.js"></script>
+  <link href="https://unpkg.com/survey-core/defaultV2.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <div id="surveyElement" style="margin: 40px;"></div>
+  <div id="surveyResult" style="margin: 40px;"></div>
+
+  <script>
+    const surveyJSON = {
+      "title": "Poll Campaign",
+      "pages": [
         {
-          "type": "ranking",
-          "name": "question1",
-          "state": "expanded",
-          "title": "Rank your concerns from most to least:\n",
-          "choices": [
+          "name": "page1",
+          "elements": [
             {
-              "value": "Online assessments",
-              "text": "Readiness for online assessments and standardized testing"
-            },
-            {
-              "value": "Online safety",
-              "text": "Online safety, cybersecurity awareness, and responsible digital citizenship"
-            },
-            {
-              "value": "Identifying misinformation",
-              "text": "Identifying misinformation and developing media literacy skills"
-            },
-            {
-              "value": "Digital tools",
-              "text": "Effective use of digital tools for learning and collaboration"
-            },
-            {
-              "value": "Other",
-              "text": "Other "
+              "type": "ranking",
+              "name": "question1",
+              "state": "expanded",
+              "title": "Rank your concerns from most to least:",
+              "choices": [
+                {
+                  "value": "Online assessments",
+                  "text": "Readiness for online assessments and standardized testing"
+                },
+                {
+                  "value": "Online safety",
+                  "text": "Online safety, cybersecurity awareness, and responsible digital citizenship"
+                },
+                {
+                  "value": "Identifying misinformation",
+                  "text": "Identifying misinformation and developing media literacy skills"
+                },
+                {
+                  "value": "Digital tools",
+                  "text": "Effective use of digital tools for learning and collaboration"
+                },
+                {
+                  "value": "Other",
+                  "text": "Other"
+                }
+              ],
+              "choicesOrder": "random"
             }
-          ],
-          "choicesOrder": "random"
+          ]
         }
-      ]
-    }
-  ],
-  "autoGrowComment": true,
-  "headerView": "advanced"
-}
+      ],
+      "autoGrowComment": true,
+      "headerView": "advanced"
+    };
+
+    Survey.StylesManager.applyTheme("defaultV2");
+    const survey = new Survey.Survey(surveyJSON);
+    survey.onComplete.add(function (result) {
+      document.querySelector('#surveyResult').innerHTML =
+        "<h3>Thanks for voting!</h3><pre>" + JSON.stringify(result.data, null, 2) + "</pre>";
+    });
+
+    survey.render("surveyElement");
+  </script>
+</body>
+</html>
